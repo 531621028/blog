@@ -1,0 +1,27 @@
+spring:
+  # 配置thymeleaf的相关属性
+  thymeleaf:
+    content-type: text/html
+    encoding: UTF-8
+    cache: false
+
+  # 配置数据源信息
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    # characterEncoding=utf-8指定连接使用utf-8的编码格式
+    url: jdbc:mysql://127.0.0.1:3306/blogs?characterEncoding=utf-8
+    username: root
+    password: root
+
+
+  # 配置jpa
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+
+
+

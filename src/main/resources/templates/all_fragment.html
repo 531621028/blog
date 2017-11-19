@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <title>个人博客模板古典系列之――江南墨卷</title>
+    <link href="css/base.css" th:href="@{/css/base.css}" rel="stylesheet"/>
+    <link href="css/index.css" th:href="@{/css/index.css}" rel="stylesheet"/>
+    <link href="css/main.css" th:href="@{/css/main.css}" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js" th:src="@{/js/modernizr.js}"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/jquery.js" th:src="@{/js/jquery.js}"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $.ajax({
+            url: "/blog/name",
+            type: "GET", //规定请求的类型（GET 或 POST）
+            dataType: "json", //预期的服务器响应的数据类型。
+            data:"",//规定要发送到服务器的数据。
+            success: function (result, status) {
+                console.log(result);
+                // result = JSON.parse(result); 由JSON字符串转换为JSON对象
+                //JSON.stringify(obj); 将JSON对象转化为JSON字符
+                $("title").text(result.name + "个人博客");
+            }
+        })
+        /*]]>*/
+    </script>
+</head>
+<body>
+<header th:fragment="header">
+    <div class="headtop"></div>
+    <div class="contenttop">
+        <div class="logo f_l" th:text=" ${name} + '的个人博客'">个人博客</div>
+        <div class="search f_r">
+            <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+                <!--onfocus 获取焦点  onblur 失去焦点-->
+                <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字"
+                       style="color: rgb(153, 153, 153);"
+                       onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+                       onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text"/>
+                <input name="show" value="title" type="hidden"/>
+                <input name="tempid" value="1" type="hidden"/>
+                <input name="tbname" value="news" type="hidden"/>
+                <input name="Submit" class="input_submit" value="搜索" type="submit"/>
+            </form>
+        </div>
+        <div class="blank"></div>
+        <nav>
+            <div class="navigation">
+                <ul class="menu">
+                    <li><a th:href="@{/index}" href="index.html">网站首页</a></li>
+                    <!--a中href="#"表示回到最顶部。如果当前页面中需要滚动的话，那么用这种方式就可以直接回到顶部-->
+                    <li><a href="#">关于我</a>
+                        <ul>
+                            <li><a th:href="@{/about}" href="about.html">个人简介</a></li>
+                            <li><a th:href="@{/listpic}" href="listpic.html">个人相册</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">我的日记</a>
+                        <ul>
+                            <li><a th:href="@{/newslistpic}" href="newslistpic.html">个人日记</a></li>
+                            <li><a th:href="@{/newslistpic}" href="newslistpic.html">学习笔记</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="newslistpic.html">技术文章</a></li>
+                    <li><a href="#">给我留言</a></li>
+                </ul>
+            </div>
+        </nav>
+        <script type="text/javascript">
+            // Navigation Menu
+            $(function () {
+                //$(".menu ul").css({display: "none"}); // Opera Fix
+                // hover() 方法规定当鼠标指针悬停在被选元素上时要运行的两个函数
+                $(".menu li").hover(function () {
+                    // $(this)是在方法click内，此处的$(this)表示的是当前调用click方法的对象$("p")，
+                    // 就是表示当前对象，当前调用该方法的对象
+                    $(this).find('ul:first').css({visibility: "visible", display: "none"}).slideDown("normal");
+                }, function () {
+                    $(this).find('ul:first').css({visibility: "hidden"});
+                });
+            });
+        </script>
+    </div>
+</header>
+<footer th:fragment="footer">
+    <div class="footer">
+        <div class="f_l">
+            <p>All Rights Reserved 版权所有：<a href="http://www.yangqq.com" th:text=" ${name} + '的个人博客'">杨青个人博客</a>
+                备案号：蜀ICP备00000000号</p>
+        </div>
+        <div class="f_r textr">
+            <p>Design by DanceSmile</p>
+        </div>
+    </div>
+</footer>
+<div class="tit01" th:fragment="tit01">
+    <h3 class="tit">关注我</h3>
+    <div class="gzwm">
+        <ul>
+            <li><a class="email" href="#" target="_blank">我的电话</a></li>
+            <li><a class="qq" href="#mailto:admin@admin.com" target="_blank">我的邮箱</a></li>
+            <li><a class="tel" href="#" target="_blank">我的QQ</a></li>
+            <li><a class="prize" href="#">个人奖项</a></li>
+        </ul>
+    </div>
+</div>
+<div class="tuwen" th:fragment="tuwen">
+    <h3 class="tit">图文推荐</h3>
+    <ul>
+        <li><a href="/"><img src="/images/01.jpg"/><b>住在手机里的朋友</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+        <li><a href="/"><img src="/images/02.jpg"/><b>教你怎样用欠费手机拨打电话</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+        <li><a href="/" title="手机的16个惊人小秘密，据说99.999%的人都不知"><img
+                src="/images/03.jpg"/><b>手机的16个惊人小秘密，据说...</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+        <li><a href="/"><img src="/images/06.jpg"/><b>住在手机里的朋友</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+        <li><a href="/"><img src="/images/04.jpg"/><b>教你怎样用欠费手机拨打电话</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+        <li><a href="/"><img src="/images/02.jpg"/><b>教你怎样用欠费手机拨打电话</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+        <li><a href="/" title="手机的16个惊人小秘密，据说99.999%的人都不知"><img
+                src="/images/03.jpg"/><b>手机的16个惊人小秘密，据说...</b></a>
+            <p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>
+        </li>
+    </ul>
+</div>
+<div class="ph" th:fragment="ph">
+    <h3 class="tit">点击排行</h3>
+    <ul class="rank">
+        <li><a href="/jstt/bj/2017-07-13/784.html" title="【心路历程】请不要在设计这条路上徘徊啦" target="_blank">【心路历程】请不要在设计这条路上徘徊啦</a>
+        </li>
+        <li><a href="/news/s/2016-05-20/751.html" title="IP要突破2000+了" target="_blank">IP要突破2000+了</a></li>
+        <li><a href="/jstt/web/2015-07-03/749.html" title="帝国cms首页、自定义页面如何实现分页" target="_blank">帝国cms首页、自定义页面如何实现分页</a>
+        </li>
+        <li><a href="/jstt/web/2015-02-25/745.html" title="【已评选】给我模板PSD源文件，我给你设计HTML！" target="_blank">【已评选】给我模板PSD源文件，我给你设计HTML！</a>
+        </li>
+        <li><a href="/jstt/bj/2015-02-14/744.html" title="【郑重申明】本站只提供静态模板下载！" target="_blank">【郑重申明】本站只提供静态模板下载！</a>
+        </li>
+        <li><a href="/news/s/2015-01-23/741.html" title="【孕期日记】生活本该如此" target="_blank">【孕期日记】生活本该如此</a></li>
+        <li><a href="/jstt/bj/2015-01-09/740.html" title="【匆匆那些年】总结个人博客经历的这四年…" target="_blank">【匆匆那些年】总结个人博客经历的这四年…</a>
+        </li>
+        <li><a href="/jstt/web/2015-01-01/739.html" title=" 2014年度优秀个人博客排名公布" target="_blank">
+            2014年度优秀个人博客排名公布</a></li>
+        <li><a href="/jstt/web/2014-12-18/736.html" title="2014年度优秀个人博客评选活动" target="_blank">2014年度优秀个人博客评选活动</a>
+        </li>
+        <li><a href="/jstt/css3/2014-12-09/734.html" title="使用CSS3制作文字、图片倒影"
+               target="_blank">使用CSS3制作文字、图片倒影</a></li>
+        <li><a href="/jstt/css3/2014-11-18/733.html" title="【分享】css3侧边栏导航不同方向划出效果"
+               target="_blank">【分享】css3侧边栏导航不同方向划出效果</a>
+        </li>
+        <li><a href="/jstt/bj/2014-11-06/732.html" title="分享我的个人博客访问量如何做到IP从10到600的(图文)" target="_blank">分享我的个人博客访问量如何做到IP从10到600的(图文)</a>
+        </li>
+    </ul>
+</div>
+<div class="ad" th:fragment="ad"><img src="/images/03.jpg"/></div>
+</body>
+</html>
